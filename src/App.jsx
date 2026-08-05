@@ -1040,7 +1040,7 @@ function SampleGrid({ board, match, dark, T }) {
   const placeMap = new Map((match?.place || []).map((p) => [p.idx, p.digit]));
 
   return (
-    <div className={`grid grid-cols-9 border-2 rounded overflow-hidden mx-auto ${T.gridOuter} ${T.cellBg}`} style={{ width: "100%", maxWidth: "230px", aspectRatio: "1" }}>
+    <div className={`grid grid-cols-9 border-2 rounded overflow-hidden mx-auto ${T.gridOuter} ${T.cellBg}`} style={{ width: "100%", maxWidth: "230px" }}>
       {board.map((cell, idx) => {
         const [r, c] = rc(idx);
         const isCause = causeSet.has(idx);
@@ -1596,7 +1596,7 @@ export default function SudokuTrainer() {
         <div className="flex flex-col sm:flex-row sm:flex-wrap gap-6">
           {/* Grid */}
           <div className="flex-shrink-0 mx-auto sm:mx-0" style={{ width: "min(92vw, 460px)" }} ref={containerRef}>
-            <div className={`grid grid-cols-9 border-2 rounded overflow-hidden aspect-square touch-manipulation select-none ${T.gridOuter} ${T.cellBg}`}>
+            <div className={`grid grid-cols-9 border-2 rounded overflow-hidden touch-manipulation select-none ${T.gridOuter} ${T.cellBg}`}>
               {board.map((cell, idx) => {
                 const [r, c] = rc(idx);
                 const isSelected = selected === idx;
