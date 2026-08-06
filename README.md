@@ -53,6 +53,19 @@ Produces `dist/` — a fully static site, no server or database required.
 
 ---
 
+## Offline access
+
+This project includes a service worker (via `vite-plugin-pwa`) that caches
+the entire app after your first successful online visit. After that, it
+keeps working with zero network connection — no backend to reach anyway,
+since puzzle generation happens entirely in your browser.
+
+Nothing extra to set up: it activates automatically once deployed. Just
+open the site (or the home-screen icon) once while online so it can do
+its first-time caching, and it'll work offline from then on. If you ever
+update the app and redeploy, the service worker fetches the new version
+in the background next time you're online and swaps it in.
+
 ## Getting it onto iOS
 
 ### Option A — Add to Home Screen (PWA), no App Store, no Mac needed
