@@ -1383,6 +1383,7 @@ export default function SudokuTrainer() {
     const easiest = allTechniqueMatches.find((e) => e.matches.length);
     setSelectedTechnique(easiest ? easiest.name : null);
     setMatchIdx(0);
+    setPanelTab("hints");
   };
 
   const selectTechnique = (name) => {
@@ -1520,10 +1521,6 @@ export default function SudokuTrainer() {
 
           <button onClick={handleAutoNotes} disabled={paused} className={`flex items-center gap-1.5 text-sm px-3 py-1.5 rounded border disabled:opacity-40 ${T.control}`}>
             <Shuffle size={14} /> Auto pencil marks
-          </button>
-
-          <button onClick={undo} disabled={!history.length || paused} className={`flex items-center gap-1.5 text-sm px-3 py-1.5 rounded border disabled:opacity-40 ${T.control}`}>
-            <Undo2 size={14} /> Undo
           </button>
 
           <button
@@ -1682,31 +1679,39 @@ export default function SudokuTrainer() {
               {mode === "notes" && " — press N again to cycle style"}
             </p>
 
+            {/* Action row: frequent per-move actions, kept close to the number pad rather than scattered in the top toolbar */}
+            <div className={`flex items-center justify-between border-t border-b py-2 ${T.divider}`}>
+              <button onClick={undo} disabled={!history.length} title="Undo" className={`flex flex-col items-center gap-0.5 text-[10px] disabled:opacity-30 ${T.textSecondary}`}>
+                <Undo2 size={18} /> Undo
+              </button>
+              <button onClick={handleErase} title="Erase" className={`flex flex-col items-center gap-0.5 text-[10px] ${T.textSecondary}`}>
+                <Eraser size={18} /> Erase
+              </button>
+              <button onClick={getHint} title="Get hint" className={`flex flex-col items-center gap-0.5 text-[10px] ${dark ? "text-amber-400" : "text-amber-600"}`}>
+                <Lightbulb size={18} /> Hint
+              </button>
+            </div>
+
             {mode !== "color" ? (
-              <>
-                <div className="grid grid-cols-3 gap-1.5">
-                  {Array.from({ length: 9 }, (_, i) => i + 1).map((d) => {
-                    const isComplete = digitCounts[d] >= 9;
-                    return (
-                      <button
-                        key={d}
-                        onClick={() => !isComplete && handleDigit(d)}
-                        disabled={isComplete}
-                        title={isComplete ? `${d} is already placed in all 9 cells` : undefined}
-                        className={[
-                          "aspect-square rounded border text-lg font-medium",
-                          isComplete ? T.controlDisabled + " cursor-not-allowed" : T.control,
-                        ].join(" ")}
-                      >
-                        {d}
-                      </button>
-                    );
-                  })}
-                </div>
-                <button onClick={handleErase} className={`w-full py-2 rounded border flex items-center justify-center gap-1.5 text-sm ${T.control} ${dark ? "hover:bg-rose-950" : "hover:bg-rose-50"}`}>
-                  <Eraser size={14} /> Erase
-                </button>
-              </>
+              <div className="flex items-center justify-between px-0.5">
+                {Array.from({ length: 9 }, (_, i) => i + 1).map((d) => {
+                  const isComplete = digitCounts[d] >= 9;
+                  return (
+                    <button
+                      key={d}
+                      onClick={() => !isComplete && handleDigit(d)}
+                      disabled={isComplete}
+                      title={isComplete ? `${d} is already placed in all 9 cells` : undefined}
+                      className={[
+                        "text-xl font-medium py-1",
+                        isComplete ? `${T.textDim} cursor-not-allowed` : (dark ? "text-sky-400" : "text-sky-600"),
+                      ].join(" ")}
+                    >
+                      {d}
+                    </button>
+                  );
+                })}
+              </div>
             ) : (
               <div className="space-y-2">
                 <div className="grid grid-cols-5 gap-1.5">
@@ -1715,10 +1720,7 @@ export default function SudokuTrainer() {
                       className={`h-9 rounded ${p.swatch} border-2 ${activeColor === p.id ? (dark ? "border-slate-100" : "border-slate-900") : "border-transparent"}`} />
                   ))}
                 </div>
-                <button onClick={handleErase} className={`w-full py-2 rounded border text-sm flex items-center justify-center gap-1.5 ${T.control} ${dark ? "hover:bg-rose-950" : "hover:bg-rose-50"}`}>
-                  <Eraser size={14} /> Clear cell colour
-                </button>
-                <button onClick={clearAllColors} className={`w-full py-2 rounded border text-sm ${T.control} ${dark ? "hover:bg-rose-950" : "hover:bg-rose-50"}`}>
+                <button onClick={clearAllColors} className={`w-full py-1.5 rounded border text-xs ${T.control} ${dark ? "hover:bg-rose-950" : "hover:bg-rose-50"}`}>
                   Clear all colours
                 </button>
               </div>
