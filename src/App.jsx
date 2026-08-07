@@ -1657,7 +1657,7 @@ export default function SudokuTrainer() {
           </div>
 
           {/* Input pad — calculator-style, sits beside the grid */}
-          <div className={`mx-auto sm:mx-0 w-full shrink-0 border rounded-lg p-3 space-y-3 ${T.card}`} style={{ maxWidth: "272px" }}>
+          <div className="mx-auto sm:mx-0 w-full shrink-0 space-y-3" style={{ width: "min(92vw, 460px)" }}>
             {/* Mode tabs */}
             <div className="flex gap-1">
               {[
